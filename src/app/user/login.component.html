@@ -1,19 +1,23 @@
-<h1>Login</h1>
-<hr>
-<div class="col-md-4">
-  <form autocomplete="off"  novalidate #loginForm='ngForm' (ngSubmit)='login(loginForm.value)'>
-    <div class="form-group" >
-      <label for="userName">User Name:</label>
-      <em *ngIf='loginForm.controls.userName?.invalid && loginForm.controls.userName.touched' >required</em>
-      <input (ngModel)='userName' name='userName' required id="userName" type="text" class="form-control" placeholder="User Name..." />
-    </div>
-    <div class="form-group" >
-      <label for="password">Password:</label>
-      <em *ngIf='loginForm.controls.password?.invalid && loginForm.controls.userName.touched'>required</em>
-      <input (ngModel)='password' name='password' required id="password" type="password" class="form-control"placeholder="Password..." />
-    </div>
-        
-    <button type="submit" class="btn btn-primary" [disabled]='loginForm.invalid'>Login</button>
-    <button type="button" class="btn btn-default" (click)='cancel()' >Cancel</button>
-  </form>
+<div>
+  <h1>Edit Your Profile </h1>
+  <hr>
+  <div class="col-md-4">
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile(profileForm.value)" autocomplete="off" novalidate>
+      <div class="form-group" [ngClass]="{ 'error': !validateFirstName()}">
+        <label for="firstName">First Name:</label>
+        <input formControlName="firstName" id="firstName" type="text" class="form-control" placeholder="First Name..." />
+        <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.required">Required</em>
+        <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.pattern">Must start with a letter</em>
+      </div>
+      <div class="form-group" [ngClass]="{ 'error': !validateLastName() }">
+        <label for="lastName">Last Name:</label>
+        <input formControlName="lastName" id="lastName" type="text" class="form-control" placeholder="Last Name..." />
+        <em *ngIf="!validateLastName()">Required</em>
+        <em>{{ lastNameErrorMessage }}</em>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
+    </form>
+  </div>
 </div>

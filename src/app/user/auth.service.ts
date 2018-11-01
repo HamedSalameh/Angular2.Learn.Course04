@@ -6,7 +6,8 @@ import { IUser } from './user.model';
 export class AuthService {
     currentUser: IUser;
 
-    constructor() { }
+    constructor() {
+    }
 
     loginUser(userName: string, password: string) {
         this.currentUser = {

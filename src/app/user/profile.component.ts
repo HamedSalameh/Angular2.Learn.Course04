@@ -6,38 +6,45 @@ import { Router } from '@angular/router';
 @Component({
   templateUrl: './profile.component.html',
   styles: [`
-    em { float: right};
-    .error input { background-color: red; }
+    em { float:right; color:#E05C65; padding-left: 10px;}
+    .error input { background-color: #E3C3C5; }
   `]
 })
 export class ProfileComponent implements OnInit {
-
   profileForm: FormGroup;
+  private firstName: FormControl;
+  private lastName: FormControl;
+  lastNameErrorMessage: string;
 
   constructor(private authService: AuthService, private router: Router) {
 
   }
 
   ngOnInit() {
-    const firstName = new FormControl(this.authService.currentUser.firstName, Validators.required);
-    const lastName = new FormControl(this.authService.currentUser.lastName, Validators.required);
-
-    // we need a form group to associate the form controls
+    this.firstName = new FormControl(this.authService.currentUser.firstName, [Validators.required, Validators.pattern('[a-zA-Z].*')]);
+    this.lastName = new FormControl(this.authService.currentUser.lastName, Validators.required);
     this.profileForm = new FormGroup({
-      firstName: firstName,
-      lastName: lastName
+      firstName: this.firstName,
+      lastName: this.lastName
     });
   }
 
-  cancel() {
+  cancel(): void {
     this.router.navigate(['events']);
   }
 
-  saveProfile(formValues) {
-    if (this.profileForm.valid) {
-      this.authService.updateCurrentUser(formValues.firstName, formValues.lastName);
-      this.router.navigate(['events']);
-    }
+  validateLastName() {
+    return this.lastName.valid || this.lastName.untouched;
+  }
 
+  validateFirstName() {
+    return this.firstName.valid || this.firstName.untouched;
+  }
+
+  saveProfile(formValue) {
+    if (this.profileForm.valid) {
+      this.authService.updateCurrentUser(formValue.firstName, formValue.lastName);
+    }
   }
 }
+
