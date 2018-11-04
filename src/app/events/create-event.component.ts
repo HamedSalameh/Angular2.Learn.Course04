@@ -22,9 +22,9 @@ export class CreateEventComponent implements OnInit {
     }
 
     saveEvent(formValues): void {
-        this.eventService.saveEvent(formValues).subscribe( (res) => {
-            this.isDirty = false;
-            this.router.navigate(['/events']);
-        });
+        this.eventService.saveEvent(formValues); //.subscribe( (res) => {
+        this.isDirty = false;
+        this.router.navigate(['/events']);
+        //});
     }
 }

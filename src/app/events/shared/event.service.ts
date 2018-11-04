@@ -328,7 +328,18 @@ export class EventsService {
       return subject;
     }
 
-    getEvent(id: number): IEvent {      
+    saveEvent(event) {
+      event.id = 999;
+      event.sessions = [];
+      EVENTS.push(event);
+    }
+
+    getEvent(id: number): IEvent {
       return EVENTS.find(event => event.id === id);
+    }
+
+    updateEvent(event) {
+      const ind = EVENTS.findIndex(x => x.id = event.id);
+      EVENTS[ind] = event;
     }
 }

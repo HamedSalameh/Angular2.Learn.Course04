@@ -3,7 +3,7 @@ import { EventsService } from '../shared/event.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { pipe, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { IEvent } from '../shared';
+import { IEvent, ISession } from '../shared';
 
 @Component({
     templateUrl: 'event-details.component.html',
@@ -12,17 +12,26 @@ import { IEvent } from '../shared';
 
 export class EventDetailsComponent implements OnInit {
     event: IEvent;
+    addMode: boolean;
 
     constructor(private eventService: EventsService,
         private activatedRoute: ActivatedRoute) { }
 
     ngOnInit() {
         const _id = +this.activatedRoute.snapshot.params['id'];
-        // this.activatedRoute.params.subscribe(
-        //     switchMap((data: Params) => {
-        //         return ...
-        //     }));
-
         this.event = this.eventService.getEvent(_id);
+    }
+
+    addSession() {
+        this.addMode = true;
+    }
+
+    saveNewSession(session: ISession) {
+        const nextId = Math.max.apply(null, this.event.sessions.map(s => s.id));
+
+        session.id = nextId + 1;
+        this.event.sessions.push(session);
+        this.eventService.updateEvent(this.event);
+        this.addMode = false;
     }
 }
