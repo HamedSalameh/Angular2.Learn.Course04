@@ -18,10 +18,12 @@ import {
   EventsListComponent,
   EventsListResolver,
   CreateSessionComponent,
-  SessionListComponent
+  SessionListComponent,
+  DurationPipe
 } from './events/index';
 import { AuthService } from './user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CollapsibleComponent } from './common/collapsible-well.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EventsAppComponent,
     EventThumbnailComponent,
     CreateSessionComponent,
-    SessionListComponent
+    SessionListComponent,
+
+    CollapsibleComponent,
+    DurationPipe
   ],
   imports: [
     BrowserModule,
